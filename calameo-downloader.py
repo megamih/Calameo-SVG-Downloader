@@ -4,15 +4,23 @@
 # --------------------------------------------------------------------------------------------------
 import time
 from pathlib import Path
-
 import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+from pyvirtualdisplay import Display
 
 BASE_DIR = Path(__file__).parent.absolute()
 
-driver = webdriver.Chrome(f"{BASE_DIR}/data/drivers/chromedriver")
+service_log_path = f"{BASE_DIR}/chromedriver.log"
+service_args = ['--verbose']
+
+# Add following 2 line before start the Chrome
+display = Display(visible=0, size=(800, 800))
+display.start()
+
+driver = webdriver.Chrome(f"{BASE_DIR}/data/drivers/chromedriver",service_args=service_args,service_log_path=service_log_path)
+
 driver.implicitly_wait(5)
 wait = WebDriverWait(driver, 5)
 
@@ -64,7 +72,7 @@ for book in books_list:
         counter += 1
         if counter > 20:
             raise Exception("Book ID is unreachable")
-    
+
     imgs = driver.find_elements(By.XPATH, '//img[@class="page"]')
     book_id = imgs[0].get_attribute('src').replace(calameoassets_url, '').split('/')[0]
     print(f'\t* Book ID: {book_id}')
@@ -81,3 +89,4 @@ for book in books_list:
         print('saved')
 driver.close()
 driver.quit()
+display.stop()
