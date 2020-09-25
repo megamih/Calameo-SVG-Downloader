@@ -20,7 +20,7 @@ sudo apt install python3-venv xorg gtk2-engines-pixbuf dbus-x11 xfonts-base xfon
 ```
 2. Install Google Chrome
 ```
-sudo curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo pt-key add
+curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo pt-key add
 echo "deb [arch=amd64]  http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
 sudo apt update
 sudo apt install google-chrome-stable
